@@ -12,22 +12,22 @@ var gulp = require('gulp'),
     rigger = require('gulp-rigger'),
     ignore = require('gulp-ignore'),
     minifyCss = require('gulp-clean-css'),
-    
+
     // jshint = require('gulp-jshint'),
     imagemin = require('gulp-imagemin'),
     htmlmin = require('gulp-htmlmin'),
     minifyjs = require('gulp-js-minify'),
     refresh = require('gulp-livereload'),
-    
+
     notify = require('gulp-notify'),
     plumber = require('gulp-plumber'),
     gutil = require('gulp-util'),
-    
+
     rimraf = require('rimraf'),
     browserSync = require("browser-sync"),
-    
+
     reload = browserSync.reload;
-    
+
 
 
 
@@ -39,8 +39,6 @@ var path = {
         fonts: 'src/fonts/**/*.*',
         styles: 'src/styles/**/*.scss',
         scripts: 'src/scripts/**/*.*'
-        // vendors_bower: 'src/vendors/bower/**/*.*',
-        // vendors_manual: 'src/vendors/manual/**/*.*'
     },
     build: {
         images: 'assets/images/',
@@ -48,14 +46,12 @@ var path = {
         styles: 'assets/styles',
         cssSource: 'assets/styles/source',
         scripts: 'assets/scripts'
-        // vendors: 'assets/vendors'
     },
     watch: {
         images: 'src/images/**/*.*',
         fonts: 'src/fonts/**/*.*',
         styles: 'src/styles/**/*.scss',
         scripts: 'src/scripts/**/*.*'
-        // vendors: 'src/vendors/**/*.*'
     },
     clean: 'assets'
 };
@@ -79,16 +75,16 @@ function printError(error) {
 
 gulp.task('webserver', function () {
     var config = {
-    server: {
-        baseDir: "./"
-    },
-    files: ['./assets/**/*'],
-    tunnel: false,
-    host: 'localhost',
-    port: 9000,
-    logPrefix: "frontend",
-    watchTask: true
-};
+        server: {
+            baseDir: "./"
+        },
+        files: ['./assets/**/*'],
+        tunnel: false,
+        host: 'localhost',
+        port: 9000,
+        logPrefix: "frontend",
+        watchTask: true
+    };
 
     browserSync(config);
 });
@@ -102,7 +98,7 @@ gulp.task('webserver', function () {
 gulp.task('scripts:build', function () {
     return gulp.src(path.src.scripts)
         .pipe(gulp.dest(path.build.scripts))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 
 
@@ -110,7 +106,7 @@ gulp.task('scripts:build', function () {
 // STYLES BUILD
 gulp.task('styles:build', function () {
     return gulp.src(path.src.styles)
-        .pipe(sass({outputStyle: 'expanded', indentWidth: 4}))
+        .pipe(sass({ outputStyle: 'expanded', indentWidth: 4 }))
         .on('error', printError)
         .pipe(autoprefix({
             browsers: ['last 30 versions', '> 1%', 'ie 9'],
@@ -123,7 +119,7 @@ gulp.task('styles:build', function () {
         .pipe(concat('main.css'))
         .pipe(rename({ extname: '.min.css' }))
         .pipe(gulp.dest(path.build.styles))
-        .pipe(reload({stream: true}))
+        .pipe(reload({ stream: true }))
 });
 
 
@@ -147,9 +143,9 @@ gulp.task('images:build', function (cb) {
 
 /////////////////////////////////////////////////////////////////////////////
 // FONTS BUILD
-gulp.task('fonts:build', function() {
+gulp.task('fonts:build', function () {
     return gulp.src(path.src.fonts)
-		.pipe(gulp.dest(path.build.fonts))
+        .pipe(gulp.dest(path.build.fonts))
 });
 
 
@@ -166,17 +162,17 @@ gulp.task('build', [
 
 /////////////////////////////////////////////////////////////////////////////
 // WATCH ALL
-gulp.task('watch', function(){
-    watch([path.watch.images], function(event, cb) {
-    gulp.start('images:build');
+gulp.task('watch', function () {
+    watch([path.watch.images], function (event, cb) {
+        gulp.start('images:build');
     });
-    watch([path.watch.fonts], function(event, cb) {
+    watch([path.watch.fonts], function (event, cb) {
         gulp.start('fonts:build');
     });
-    watch([path.watch.styles], function(event, cb) {
+    watch([path.watch.styles], function (event, cb) {
         gulp.start('styles:build');
     });
-    watch([path.watch.scripts], function(event, cb) {
+    watch([path.watch.scripts], function (event, cb) {
         gulp.start('scripts:build');
     });
 
